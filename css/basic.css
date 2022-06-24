@@ -1,0 +1,59 @@
+html {
+  box-sizing: border-box;
+  position: relative;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+
+  font-family: Inter, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+
+  color: var(--black-color,#000000);
+  background-color: var(--nearlyviolet-color, #F2F0F9);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1, h2, h3, p, figure, fieldset {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.container {
+  max-width: 1300px;
+  padding: 0 100px;
+  margin: 0 auto;
+}
+
+section {
+  padding: 79px 0;
+}
+
