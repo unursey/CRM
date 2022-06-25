@@ -1,7 +1,21 @@
 "use strict";
 
+const title = document.querySelector('.add-product__title');
+console.log(title);
+const productId = document.querySelector('.add-product__id');
+console.log(productId);
+const buttonId = document.querySelector('.add-product__id-button');
+console.log(buttonId);
+const productForm = document.querySelector('.add-product__form');
+console.log(productForm);
+
 const checkbox = document.querySelector(".add-product__checkbox");
+console.log(checkbox);
 const checkInput = document.querySelectorAll(".add-product__input")[3];
+console.log(checkInput);
+const sumPrice = document.querySelectorAll('.card-sum__price')[1];
+console.log(sumPrice);
+
 
 checkbox.addEventListener("change", () => {
   if (checkbox.checked) {
@@ -11,34 +25,7 @@ checkbox.addEventListener("change", () => {
   }
 });
 
-/*const check = function (v) {
-  let e = +prompt(v);
-  if (!Number.isNaN(e)) {
-    return e;
-  } else {
-    alert("Вы ввели некорректные данные!");
-    return check(v);
-  }
-};
 
-const question = function () {
-  let productName = prompt("Наименование товара");
-  let productCount = check("Количество товара");
-  let productCategory = prompt("Категория товара");
-  let productPrice = check("Цена товара");
-
-  console.log(`Наименование товара: ${productName}`);
-  console.log(`Количество товара: ${productCount}`);
-  console.log(`Категория товара: ${productCategory}`);
-  console.log(`Цена товара: ${productPrice}`);
-  console.log(
-    `На складе ${productCount} единицы товара "${productName}" на сумму ${
-      productPrice * productCount
-    } деревянных`
-  );
-};
-
-question();*/
 
 const myData = {
   productName: "",
