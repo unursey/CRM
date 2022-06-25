@@ -1,7 +1,7 @@
 "use strict";
 
-const title = document.querySelector('.add-product__title');
-console.log(title);
+const modalTitle = document.querySelector('.add-product__title');
+console.log(modalTitle);
 const productId = document.querySelector('.add-product__id');
 console.log(productId);
 const buttonId = document.querySelector('.add-product__id-button');
