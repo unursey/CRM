@@ -1,6 +1,7 @@
 "use strict";
 
 const addProduct = document.querySelector('.list-product__table-add');
+const tBody = document.querySelector('.list-product__table-body');
 
 const modalTitle = document.querySelector('.add-product__title');
 const productId = document.querySelector('.add-product__id');
@@ -131,23 +132,41 @@ addProduct.addEventListener('click', () => {
   formOverlay.classList.add('overlay_disabled');
 });
 
-const handleForm = () => {
-  formOverlay.classList.toggle("overlay_disabled");
-};
-const toggleForm = (e) => {
-  if (formOverlay.classList.contains("overlay_disabled")) {
-    if (!e.target.closest(".add-product")) {
-      handleForm();
-    } else if (e.target.classList.contains("add-product__button-close")) {
-      e.preventDefault();
-      handleForm();
-    }
-  } else if (e.target.closest(".add-product")) {
-    handleForm();
-  }
-};
-formOverlay.addEventListener("click", toggleForm);
+// const handleForm = () => {
+//   formOverlay.classList.toggle("overlay_disabled");
+// };
+// const toggleForm = (e) => {
+//   if (formOverlay.classList.contains("overlay_disabled")) {
+//     if (!e.target.closest(".add-product")) {
+//       handleForm();
+//     } else if (e.target.classList.contains("add-product__button-close")) {
+//       e.preventDefault();
+//       handleForm();
+//     }
+//   } else if (e.target.closest(".add-product")) {
+//     handleForm();
+//   }
+// };
+// formOverlay.addEventListener("click", toggleForm);
 
+formOverlay.addEventListener('click', (e) => {
+  const target = e.target;
+  if (target === formOverlay || target.classList.contains('add-product__button-close')) {
+    formOverlay.classList.remove('overlay_disabled');
+  }
+});
+
+  tBody.addEventListener('click', (e) => {
+    if (e.target.closest('.list-product__button-delete')) {
+      data.splice([...document.querySelectorAll('.list-product__button-delete')]
+      .indexOf(e.target), 1);
+      e.target.closest('.list-product__table-tr').remove();
+    }
+    console.log(data);
+  }); 
+  
+
+console.log(data);
 // const myData = {
 //   productName: "",
 //   productCount: "",
