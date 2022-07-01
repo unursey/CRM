@@ -1,8 +1,11 @@
 "use strict";
 
+const addProduct = document.querySelector('.list-product__table-add');
+
 const modalTitle = document.querySelector('.add-product__title');
 const productId = document.querySelector('.add-product__id');
 const buttonId = document.querySelector('.add-product__id-button');
+const formOverlay = document.querySelector('.overlay');
 const productForm = document.querySelector('.add-product__form');
 
 const checkbox = document.querySelector(".add-product__checkbox");
@@ -123,6 +126,27 @@ const renderGoods = (elem, data) => {
 };
 
 renderGoods(tableBody, data);
+
+addProduct.addEventListener('click', () => {
+  formOverlay.classList.add('overlay_disabled');
+});
+
+const handleForm = () => {
+  formOverlay.classList.toggle("overlay_disabled");
+};
+const toggleForm = (e) => {
+  if (formOverlay.classList.contains("overlay_disabled")) {
+    if (!e.target.closest(".add-product")) {
+      handleForm();
+    } else if (e.target.classList.contains("add-product__button-close")) {
+      e.preventDefault();
+      handleForm();
+    }
+  } else if (e.target.closest(".add-product")) {
+    handleForm();
+  }
+};
+formOverlay.addEventListener("click", toggleForm);
 
 // const myData = {
 //   productName: "",

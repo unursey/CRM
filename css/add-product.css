@@ -1,6 +1,6 @@
 .overlay {
   position: fixed;
-  display: block;
+  display: none;
   top: 0;
   left: 0;
   right: 0;
@@ -10,7 +10,7 @@
 }
 
 .overlay_disabled {
-  display: none;
+  display: block;
 }
 
 .add-product {
