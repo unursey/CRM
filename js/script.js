@@ -165,7 +165,6 @@ formOverlay.addEventListener('click', (e) => {
     console.log(data);
   }); 
   
-
 console.log(data);
 // const myData = {
 //   productName: "",
