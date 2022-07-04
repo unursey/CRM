@@ -241,5 +241,7 @@ productForm.addEventListener('submit', e => {
   productId.contentEditable = 'false';
   productForm.reset();
   closeModal();
+  checkInput.disabled = true;
+  inputId.value = '$ 0.00';
   newTotalSum();
 });
