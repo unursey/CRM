@@ -29,7 +29,7 @@
           <div class="list-product__sum card-sum">
             <span class="card-sum__text">Итоговая стоимость:</span>
 
-            <span class="card-sum__price">$900.00</span>
+            <span class="card-sum__price">$ 0.00</span>
           </div>
         </div>
 
@@ -240,7 +240,8 @@
           <h2 class="add-product__title">Добавить товар</h2>
 
           <div class="add-product__id-block">
-            <div class="add-product__id">id: 201910241</div>
+            <div class="add-product__id">id: </div>
+            <div class="add-product__id">201910241</div>
 
             <button class="add-product__id-button" aria-label="Редактировать номер товара"></button>
           </div>
@@ -248,13 +249,16 @@
 
         <form id="form" class="add-product__form">
           <fieldset class="add-product__fieldset">
+            <input class="add-product__input" type="hidden" name="id" value="">
+
             <label class="add-product__label add-product__label-name">
               Наименование
               <input
                 class="add-product__input"
                 type="text"
-                name="name"
+                name="title"
                 value=""
+                required
               />
             </label>
 
@@ -263,8 +267,9 @@
               <input
                 class="add-product__input"
                 type="text"
-                name="name"
+                name="category"
                 value=""
+                required
               />
             </label>
 
@@ -275,6 +280,7 @@
                 type="text"
                 name="units"
                 value=""
+                required
               />
             </label>
 
@@ -290,10 +296,11 @@
               <input
                 class="add-product__input"
                 id="discount" 
-                type="text"
-                name="discount"
+                type="number"
+                name="discont"
                 value=""
                 disabled
+                required
               />
             </div>
 
@@ -302,15 +309,15 @@
               <textarea
                 class="add-product__input add-product__input_large"
                 name="description"
-              >
-              </textarea>
+                required
+              ></textarea>
             </label>
 
             <label class="add-product__label add-product__label-count">
               Количество
               <input
                 class="add-product__input"
-                type="text"
+                type="number"
                 name="count"
                 value=""
                 required
@@ -324,6 +331,7 @@
                 type="number"
                 name="price"
                 value=""
+                required
               />
             </label>
 
@@ -342,7 +350,7 @@
         <div class="add-product__total-block">
           <div class="add-product__sum card-sum">
             <span class="card-sum__text">Итоговая стоимость:</span>
-            <span class="card-sum__price">$ 900.00</span>
+            <span class="card-sum__price">$ 0.00</span>
           </div>
   
           <button form="form" class="add-product__button" type="submit">

@@ -53,8 +53,14 @@
   line-height: 12px;
   text-transform: uppercase;
   color: var(--grey-color, #C5C5C5);
-  padding-right: 20px;
   align-self: end;
+}
+
+.add-product__id:nth-child(2) {
+  margin-right: 20px;
+  width: 65px;
+  padding: 0 3px;
+  outline: none;
 }
 
 .add-product__id-button {
@@ -216,7 +222,8 @@
 
 .add-product__checkbox:hover:not(:disabled):before,
 .add-product__input:focus,
-.add-product__input:hover:not(:disabled) {
+.add-product__input:hover:not(:disabled),
+.add-product__id:focus:nth-child(2) {
   box-shadow: 0 0 10px rgba(0, 113, 227, 0.5);
 }
 

@@ -4,22 +4,26 @@ const addProduct = document.querySelector('.list-product__table-add');
 const tBody = document.querySelector('.list-product__table-body');
 
 const modalTitle = document.querySelector('.add-product__title');
-const productId = document.querySelector('.add-product__id');
+const productId = document.querySelectorAll('.add-product__id')[1];
+
 const buttonId = document.querySelector('.add-product__id-button');
 const formOverlay = document.querySelector('.overlay');
 const productForm = document.querySelector('.add-product__form');
+const inputId = productForm.querySelectorAll('.add-product__input')[0];
 
-const checkbox = document.querySelector(".add-product__checkbox");
-const checkInput = document.querySelectorAll(".add-product__input")[3];
-const sumPrice = document.querySelectorAll('.card-sum__price')[1];
+const productSum = formOverlay.querySelector('.card-sum__price');
+const allProductSum = document.querySelector('.list-product .card-sum__price');
 
-const tableBody = document.querySelector('.list-product__table-body');
+const checkbox = productForm.querySelector(".add-product__checkbox");
+const checkInput = productForm.querySelectorAll(".add-product__input")[4];
 
 checkbox.addEventListener("change", () => {
   if (checkbox.checked) {
     checkInput.disabled = false;
+    checkInput.focus();
   } else {
     checkInput.disabled = true;
+    checkInput.value = '';
   }
 });
 
@@ -80,8 +84,44 @@ const data = [
       "big": "img/lan_proconnect43-3-25-b.jpg"
     }
   }
-]
-const createRow = ({id, title, category, units, count, price}) => {
+];
+
+const addProductData = product => {
+  data.push(product);
+};
+
+const setDiscount = (discont) => (discont ? (100 - discont) / 100 : 1);
+
+const getTotal = (price, count, discont) => {
+  if (price <= 0 || count <= 0) return 0
+  return price * count * setDiscount(discont)
+};
+
+const getTotalTable = (prices = []) => {
+  return prices.reduce(
+    (acc, { count, price, discont }) => acc + getTotal(price, count, discont),
+    0
+  )
+};
+
+const isNumber = (num) => {
+  return !isNaN(parseFloat(num)) && isFinite(num) ? +num : null
+};
+
+const newTotalSum = () => {
+  allProductSum.textContent = `$ ${getTotalTable(data).toFixed(2)}`;
+};
+newTotalSum();
+
+productForm.addEventListener('change', () => {
+  const price = isNumber(productForm.querySelector('[name=price]').value)
+  const count = isNumber(productForm.querySelector('[name=count]').value)
+  const discont = isNumber(productForm.querySelector('[name=discont]').value)
+  productSum.textContent = `$ ${getTotal(price, count, discont).toFixed(2)}`;
+});
+
+
+const createRow = ({id, title, category, units, count, price, discont}) => {
   
   // const tr = document.createElement('tr');
   // tr.classList.add('list-product__table-tr');
@@ -110,7 +150,11 @@ const createRow = ({id, title, category, units, count, price}) => {
     <td class=list-product__table-td>${units}</td>
     <td class=list-product__table-td>${count}</td>
     <td class=list-product__table-td>$${price}</td>
-    <td class=list-product__table-td>$${count*price}</td>
+    <td class=list-product__table-td>$${getTotal(
+      price,
+      count,
+      discont
+    ).toFixed(2)}</td>
     <td class=list-product__table-td>
       <button class='list-product__table-button list-product__button-img' aria-label="image"></button>
       <button class='list-product__table-button list-product__button-edit' aria-label="edit"></button>
@@ -126,11 +170,7 @@ const renderGoods = (elem, data) => {
   elem.append(...allRow); 
 };
 
-renderGoods(tableBody, data);
-
-addProduct.addEventListener('click', () => {
-  formOverlay.classList.add('overlay_disabled');
-});
+renderGoods(tBody, data);
 
 // const handleForm = () => {
 //   formOverlay.classList.toggle("overlay_disabled");
@@ -148,11 +188,22 @@ addProduct.addEventListener('click', () => {
 //   }
 // };
 // formOverlay.addEventListener("click", toggleForm);
+const openModal = () => {
+  formOverlay.classList.add('overlay_disabled');
+};
+const closeModal = () => {
+  formOverlay.classList.remove('overlay_disabled');
+};
+
+addProduct.addEventListener('click', () => {
+  productId.textContent = `${Date.now().toString().slice(4)}`;
+  openModal();
+});
 
 formOverlay.addEventListener('click', (e) => {
   const target = e.target;
   if (target === formOverlay || target.classList.contains('add-product__button-close')) {
-    formOverlay.classList.remove('overlay_disabled');
+    closeModal();
   }
 });
 
@@ -161,43 +212,34 @@ formOverlay.addEventListener('click', (e) => {
       data.splice([...document.querySelectorAll('.list-product__button-delete')]
       .indexOf(e.target), 1);
       e.target.closest('.list-product__table-tr').remove();
+      newTotalSum();
     }
     console.log(data);
   }); 
   
 console.log(data);
-// const myData = {
-//   productName: "",
-//   productCount: "",
-//   productCategory: "",
-//   productPrice: "",
 
-//   check: function (v) {
-//     let e = +prompt(v);
-//     if (!Number.isNaN(e)) {
-//       return e;
-//     } else {
-//       alert("Вы ввели некорректные данные!");
-//       return this.check(v);
-//     }
-//   },
+buttonId.addEventListener('click', () => {
+  productId.contentEditable = 'true';
+  productId.focus();
+});
 
-//   question: function () {
-//     this.productName = prompt("Наименование товара");
-//     this.productCount = this.check("Количество товара");
-//     this.productCategory = prompt("Категория товара");
-//     this.productPrice = this.check("Цена товара");
+const addProductPage = (product, tBody) => {
+  tBody.append(createRow(product))
+};
+ 
+productForm.addEventListener('submit', e => {
+  e.preventDefault();
+  inputId.value = +productId.textContent;
 
-//     console.log(`Наименование товара: ${this.productName}`);
-//     console.log(`Количество товара: ${this.productCount}`);
-//     console.log(`Категория товара: ${this.productCategory}`);
-//     console.log(`Цена товара: ${this.productPrice}`);
-//     console.log(
-//       `На складе ${this.productCount} единицы товара "${
-//         this.productName
-//       }" на сумму ${this.productPrice * this.productCount} деревянных`
-//     );
-//   },
-// };
+  const formData = new FormData(e.target);
+  const newProduct = Object.fromEntries(formData);
+  console.log('newProduct: ', newProduct);
 
-// myData.question();
+  addProductPage(newProduct, tBody);
+  addProductData(newProduct);
+  productId.contentEditable = 'false';
+  productForm.reset();
+  closeModal();
+  newTotalSum();
+});
