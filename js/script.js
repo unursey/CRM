@@ -216,7 +216,8 @@ const addProductPage = (product, tBody) => {
 // });
 
 const convertPromo = (promo) => {  
-  promo = promo.toUpperCase();
+  //promo = promo.toUpperCase();
+  
   if (promo === 'METHED') {   
     discont = 15;  
   } else   
@@ -229,6 +230,7 @@ const convertPromo = (promo) => {
 };
 
 checkInput.addEventListener('change', (e) => {
+  checkInput.value = checkInput.value.toUpperCase();
   convertPromo(e.target.value)
 });
 
