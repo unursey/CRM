@@ -215,7 +215,8 @@ const addProductPage = (product, tBody) => {
 //   newTotalSum();
 // });
 
-const convertPromo = (promo) => {   
+const convertPromo = (promo) => {  
+  promo = promo.toUpperCase();
   if (promo === 'METHED') {   
     discont = 15;  
   } else   
@@ -225,7 +226,6 @@ const convertPromo = (promo) => {
     discont = ''; 
     checkInput.value = '';
   }   
-  console.log(discont);
 };
 
 checkInput.addEventListener('change', (e) => {
