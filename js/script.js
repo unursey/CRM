@@ -230,7 +230,7 @@ const convertPromo = (promo) => {
 };
 
 checkInput.addEventListener('change', (e) => {
-  checkInput.value = checkInput.value.toUpperCase();
+  e.target.value = e.target.value.toUpperCase();
   convertPromo(e.target.value)
 });
 
