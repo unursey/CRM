@@ -26,6 +26,7 @@ checkbox.addEventListener("change", () => {
   } else {
     checkInput.disabled = true;
     checkInput.value = '';
+    discont = null;
   }
 });
 
