@@ -17,6 +17,8 @@ const allProductSum = document.querySelector('.list-product .card-sum__price');
 const checkbox = productForm.querySelector(".add-product__checkbox");
 const checkInput = productForm.querySelectorAll(".add-product__input")[4];
 
+let discont;
+
 checkbox.addEventListener("change", () => {
   if (checkbox.checked) {
     checkInput.disabled = false;
@@ -116,31 +118,12 @@ newTotalSum();
 productForm.addEventListener('change', () => {
   const price = isNumber(productForm.querySelector('[name=price]').value)
   const count = isNumber(productForm.querySelector('[name=count]').value)
-  const discont = isNumber(productForm.querySelector('[name=discont]').value)
+  //const discont = isNumber(productForm.querySelector('[name=discont]').value)
   productSum.textContent = `$ ${getTotal(price, count, discont).toFixed(2)}`;
 });
 
 
 const createRow = ({id, title, category, units, count, price, discont}) => {
-  
-  // const tr = document.createElement('tr');
-  // tr.classList.add('list-product__table-tr');
-  // const tdId = document.createElement('td');
-  // tdId.textContent = id;
-  // const tdTitle = document.createElement('td');
-  // tdTitle.textContent = title;
-  // const tdCategory = document.createElement('td');
-  // tdCategory.textContent = category;
-  // const tdUnits = document.createElement('td');
-  // tdUnits.textContent = units;
-  // const tdCount = document.createElement('td');
-  // tdCount.textContent = count;
-  // const tdPrice = document.createElement('td');
-  // tdPrice.textContent = price;
-
-  // tr.append(tdId, tdTitle, tdCategory, tdUnits, tdCount, tdPrice);
-  // return tr;
-
   const tr = document.createElement('tr'); 
   tr.classList.add('list-product__table-tr'); 
   tr.insertAdjacentHTML('afterbegin', `
@@ -169,30 +152,18 @@ const renderGoods = (elem, data) => {
 
   elem.append(...allRow); 
 };
-
 renderGoods(tBody, data);
 
-// const handleForm = () => {
-//   formOverlay.classList.toggle("overlay_disabled");
-// };
-// const toggleForm = (e) => {
-//   if (formOverlay.classList.contains("overlay_disabled")) {
-//     if (!e.target.closest(".add-product")) {
-//       handleForm();
-//     } else if (e.target.classList.contains("add-product__button-close")) {
-//       e.preventDefault();
-//       handleForm();
-//     }
-//   } else if (e.target.closest(".add-product")) {
-//     handleForm();
-//   }
-// };
-// formOverlay.addEventListener("click", toggleForm);
 const openModal = () => {
   formOverlay.classList.add('overlay_disabled');
 };
 const closeModal = () => {
+  discont = null;
   formOverlay.classList.remove('overlay_disabled');
+  checkInput.disabled = true;
+  productSum.textContent = '$ 0.00';
+  productId.contentEditable = 'false';
+  productForm.reset();
 };
 
 addProduct.addEventListener('click', () => {
@@ -207,16 +178,15 @@ formOverlay.addEventListener('click', (e) => {
   }
 });
 
-  tBody.addEventListener('click', (e) => {
-    if (e.target.closest('.list-product__button-delete')) {
-      data.splice([...document.querySelectorAll('.list-product__button-delete')]
-      .indexOf(e.target), 1);
-      e.target.closest('.list-product__table-tr').remove();
-      newTotalSum();
-    }
-    console.log(data);
-  }); 
-  
+tBody.addEventListener('click', (e) => {
+  if (e.target.closest('.list-product__button-delete')) {
+    data.splice([...document.querySelectorAll('.list-product__button-delete')]
+    .indexOf(e.target), 1);
+    e.target.closest('.list-product__table-tr').remove();
+    newTotalSum();
+  }
+  console.log(data);
+});   
 console.log(data);
 
 buttonId.addEventListener('click', () => {
@@ -228,20 +198,66 @@ const addProductPage = (product, tBody) => {
   tBody.append(createRow(product))
 };
  
-productForm.addEventListener('submit', e => {
-  e.preventDefault();
-  inputId.value = +productId.textContent;
+// productForm.addEventListener('submit', e => {
+//   e.preventDefault();
+//   inputId.value = +productId.textContent;
 
-  const formData = new FormData(e.target);
-  const newProduct = Object.fromEntries(formData);
-  console.log('newProduct: ', newProduct);
+//   const formData = new FormData(e.target);
+//   const newProduct = Object.fromEntries(formData);
 
-  addProductPage(newProduct, tBody);
-  addProductData(newProduct);
-  productId.contentEditable = 'false';
-  productForm.reset();
-  closeModal();
-  checkInput.disabled = true;
-  inputId.value = '$ 0.00';
-  newTotalSum();
+//   console.log('newProduct: ', newProduct);
+
+//   addProductPage(newProduct, tBody);
+//   addProductData(newProduct);
+
+//   closeModal();
+//   newTotalSum();
+// });
+
+const convertPromo = (promo) => {   
+  if (promo === 'METHED') {   
+    discont = 15;  
+  } else   
+  if (promo === 'NEWYEAR') {   
+    discont = 5; 
+  } else {   
+    discont = ''; 
+    checkInput.value = '';
+  }   
+  console.log(discont);
+};
+
+checkInput.addEventListener('change', (e) => {
+  convertPromo(e.target.value)
 });
+
+const handleAddProduct = (e) => {
+  e.preventDefault()
+
+  const product = {};
+  checkInput.value = discont
+  inputId.value = +productId.textContent;
+  const formData = new FormData(productForm);
+
+  formData.forEach((value, key) => {
+    if (key !== 'discount-checkbox') {
+      product[key] =
+        key === 'price' || key === 'count' || key === 'discont'
+          ? +value
+          : value
+    };
+  });
+  if (product.description.trim() === '') return;
+  if (!('discont' in product)) {
+    product.discont = false
+  };
+
+  console.log(product);
+  addProductData(product);
+  addProductPage(product, tBody);
+  
+  newTotalSum();
+  closeModal();
+};
+
+productForm.addEventListener('submit', handleAddProduct);

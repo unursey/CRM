@@ -109,8 +109,9 @@
   width: 20px;
   height: 20px;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-color: inherit;
+  outline: none;
 }
 
 .list-product__table-button:not(:last-child) {
@@ -267,6 +268,14 @@
   background-image: url("../img/right.svg");
 }
 
+.list-product__table-button:focus,
+.list-product__table-select:focus,
+.list-product__table-left:focus,
+.list-product__table-right:focus {
+  outline: 1px solid var(--greyviolet-color, #6e6893);
+}
+
+
 .list-product__table-add:hover, .list-product__table-add:focus {
   background-color: var(--greyviolet-color, #6e6893);
   transition: all 0.8 ease; 
@@ -281,7 +290,6 @@
 .list-product__table-input:hover:not(:disabled) {
   box-shadow: 0 0 10px rgba(0, 113, 227, 0.5);
 }
-
 
 .list-product__table-left:hover,
 .list-product__table-left:focus {
