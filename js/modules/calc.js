@@ -15,8 +15,3 @@ export const getTotalTable = (prices = []) => {
 export const isNumber = (num) => {
   return !isNaN(parseFloat(num)) && isFinite(num) ? +num : null
 };
-
-export const newTotalSum = (allProductSum, data) => {
-  allProductSum.textContent = `$ ${getTotalTable(data).toFixed(2)}`;
-};
-

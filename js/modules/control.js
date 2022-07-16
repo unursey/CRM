@@ -1,8 +1,7 @@
 import {getElements} from './getElements.js';
-import { getTotal } from "./calc.js";
+import { getTotal, getTotalTable } from "./calc.js";
 import { isNumber } from "./calc.js";
 import { createRow } from "./createElements.js";
-import { newTotalSum } from "./calc.js";
 
 const {
     addProduct,
@@ -49,15 +48,21 @@ export const addProductPage = (product) => {
   tBody.append(createRow(product));
 };
 
+export const newTotalSum = (allProductSum, data) => {
+  allProductSum.textContent = `$ ${getTotalTable(data).toFixed(2)}`;
+};
+
 export const modalProductSum = () => {
-  productForm.addEventListener("change", (e) => {
+  const inputPrice = productForm.querySelector("[name=price]");
+  const inputCount = productForm.querySelector("[name=count]");
+  const inputDiscont = productForm.querySelector('[name=discont]');
+  productForm.addEventListener("change", () => {
     checkInput.value = checkInput.value.toUpperCase();
-    const price = isNumber(productForm.querySelector("[name=price]").value);
-    const count = isNumber(productForm.querySelector("[name=count]").value);
-    const discont = checkPromo(productForm.querySelector('[name=discont]').value); 
+    const price = isNumber(inputPrice.value);
+    const count = isNumber(inputCount.value);
+    const discont = checkPromo(inputDiscont.value); 
     
     productSum.textContent = `$ ${getTotal(price, count, discont).toFixed(2)}`;
-    console.log(discont);
   });
 };
 
@@ -69,7 +74,7 @@ const checkPromo = (promo) => {
       } else   
       if (promo === 'NEWYEAR') {   
         //checkInput.value = 5;
-        return 15;
+        return 5;
       } else {  
         checkInput.value = ''; 
         return '';   
@@ -107,7 +112,6 @@ export const delProduct = (tBody, data) => {
       e.target.closest(".list-product__table-tr").remove();
       newTotalSum(allProductSum, data);
     }
-    console.log(data);
   });
 };
 
@@ -150,7 +154,35 @@ export const addNewProduct = (data) => {
     addProductPage(product);
     newTotalSum(allProductSum, data);
     closeModal();
-    console.log(data);
     console.log(product);
+    console.log(data);
   });
+};
+
+export const openImg = () => {
+  const buttonImg = document.querySelectorAll(".list-product__button-img");
+  buttonImg.forEach((btn) => {
+    btn.addEventListener("click", () => {
+
+      const tr = btn.closest('tr');
+      const src = `${tr.dataset.pic}`;
+
+      const top = screen.height/2 - 600/2;
+      const left = screen.width/2 - 600/2;
+
+      const win = open(src, '', `width=600, height=600, top=${top}, left=${left}`);
+      win.focus();
+
+      // win.document.write(`<img src='${document.querySelectorAll('.list-product__table-tr')[index].dataset.pic}'
+      // alt='Киса лижет лапку' />`);
+
+      // win.document.body.innerHTML = `
+      // <img
+      // src='./img/ksks.jpg') alt='some text'
+      // alt="Киса лижет лапку"
+      // >
+      // `;
+    })
+  
+  })
 };

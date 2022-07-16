@@ -3,6 +3,7 @@ import { getTotal } from "./calc.js";
 export const createRow = ({id, title, category, units, count, price, discont}) => {
     const tr = document.createElement('tr'); 
     tr.classList.add('list-product__table-tr'); 
+    tr.dataset.pic = "./img/ksks.jpg";
     tr.insertAdjacentHTML('afterbegin', `
       <td class=list-product__table-td>${id}</td>
       <td class=list-product__table-td>${title}</td>
@@ -26,6 +27,5 @@ export const createRow = ({id, title, category, units, count, price, discont}) =
   
   export const renderGoods = (data, elem) => {
     const allRow = data.map(createRow);
-  console.log()
     elem.append(...allRow); 
   };

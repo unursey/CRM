@@ -7,9 +7,10 @@ import {
   addCloseModal,
   delProduct,
   addNewProduct,
-  editId
+  editId,
+  openImg,
+  newTotalSum,
 } from './control.js';
-import {newTotalSum} from './calc.js';
 
   export const init = (data) => {
     const {
@@ -26,4 +27,5 @@ import {newTotalSum} from './calc.js';
     delProduct (tBody, data);
     addNewProduct(data)
     editId();
+    openImg();
   }
