@@ -2,19 +2,24 @@ export const getElements = () => {
     const addProduct = document.querySelector('.list-product__table-add');
     const tBody = document.querySelector('.list-product__table-body');
     const allProductSum = document.querySelector('.list-product .card-sum__price');
+    const productTable = document.querySelector(".list-product__table");
     
     const formOverlay = document.querySelector('.overlay');
     const modalTitle = formOverlay.querySelector('.add-product__title');
     const productId = formOverlay.querySelectorAll('.add-product__id')[1];
     const buttonId = formOverlay.querySelector('.add-product__id-button');
     const productSum = formOverlay.querySelector('.card-sum__price');
+    const errorModal = formOverlay.querySelector('.add-product__error');
+    const warning = formOverlay.querySelector('.add-product__warning');
     
     const productForm = formOverlay.querySelector('.add-product__form');
     const inputId = productForm.querySelectorAll('.add-product__input')[0];
     const checkbox = productForm.querySelector(".add-product__checkbox");
     const checkInput = productForm.querySelectorAll(".add-product__input")[4];
+    
 
     return {
+      productTable,
       addProduct,
       tBody,
       allProductSum,
@@ -25,6 +30,8 @@ export const getElements = () => {
       productForm,
       inputId,
       checkbox,
-      checkInput
+      checkInput,
+      errorModal,
+      warning,
     }
 };
