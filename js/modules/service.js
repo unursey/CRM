@@ -1,5 +1,5 @@
-import {renderGoods} from "./createElements.js";
-import { newTotalSum } from "./control.js";
+import {renderGoods} from './createElements.js';
+import { newTotalSum } from './control.js';
 
 export const URL = 'https://limitless-beach-97190.herokuapp.com/api/goods';
 

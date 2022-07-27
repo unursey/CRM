@@ -1,18 +1,26 @@
 import { getTotal } from "./calc.js";
 import { getElements } from "./getElements.js";
-import { newTotalSum, delProduct } from "./control.js";
+import { newTotalSum } from "./control.js";
 
 const { tBody } = getElements();
 
 
-export const renderGoods = (err, data) => {
+export const renderGoods = (err, data, item) => {
   if (err) {
     console.warn(err, data);
     return;
   }
+
+  if (item) {
+    console.log(item);
+    item.replaceWith(createRow(data)); 
+    return;
+  }
+  
   const allRow = data.map(createRow);
+  
   tBody.append(...allRow);
-  delProduct();
+
   newTotalSum(err, data);
 };
 
@@ -25,9 +33,11 @@ export const createRow = ({
   price,
   discount,
 }) => {
+
   const tr = document.createElement("tr");
   tr.classList.add("list-product__table-tr");
   tr.dataset.pic = "./img/ksks.jpg";
+  tr.dataset.id = id;
   tr.insertAdjacentHTML(
     "afterbegin",
     `
@@ -44,7 +54,7 @@ export const createRow = ({
       ).toFixed(2)}</td>
       <td class=list-product__table-td>
         <button class='list-product__table-button list-product__button-img' aria-label="image"></button>
-        <button class='list-product__table-button list-product__button-edit' aria-label="edit"></button>
+        <button class='list-product__table-button list-product__button-edit' aria-label="edit" data-id="${id}"></button>
         <button class='list-product__table-button list-product__button-delete' aria-label="delete" data-id="${id}"></button>
       </td> 
     `
