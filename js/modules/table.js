@@ -27,24 +27,30 @@ export const addTableBtnEvent = () => {
       const tr = e.target.closest("tr");
       const src = `${urlPic}${tr.dataset.pic}`;
 
-      const top = screen.height / 2 - 600 / 2;
-      const left = screen.width / 2 - 600 / 2;
+      // const top = screen.height / 2 - 600 / 2;
+      // const left = screen.width / 2 - 600 / 2;
+
+      const height = 500;
+      const width = 530;
 
       const win = open(
         "about:blance",
         "",
-        `width=600, height=600, top=${top}, left=${left}`
+        `width=${height}, height=${width}, menubar=no, toolbar=no, scrollbars=no, top=${((screen.height-height)/2)},left=${((screen.width-width)/2)}`
       );
 
       win.document.body.innerHTML = `
-        <img class='add-product__file-img'
+        <img class='add-product__file-img' style="object-fit:cover; margin: 20px auto; max-width:100%;"
           src='${src}' alt='some text'
           alt=""
         >
+
       `;
 
       const img = win.document.querySelector(".add-product__file-img");
-      loadImg(img, src);  
+
+      loadImg(img, src); 
+      
       win.focus();
     }
 
