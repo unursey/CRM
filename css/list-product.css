@@ -137,6 +137,10 @@
   background-image: url("../img/yes-img.svg");
 }
 
+.list-product__button-img_no-image {
+  background-image: url("../img/no-img.svg");
+}
+
 .list-product__button-edit {
   background-image: url("../img/edit.svg");
 }
