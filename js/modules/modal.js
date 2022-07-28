@@ -201,6 +201,8 @@ export const showModal = async (err, data) => {
 
   checked(obj.discount);
 
+  loadImg(obj.image);
+
   addCloseModal();
   changeCheckbox();
   modalProductSum(overlay);
@@ -208,6 +210,20 @@ export const showModal = async (err, data) => {
   addFileImg();
   deleteImg(overlay);
 };
+
+const loadImg = (src) => {
+  return new Promise((resolve, reject) => {
+    const img = document.querySelector('.add-product__file-img');
+    img.onload = () => {
+      resolve(img);
+    };
+    img.onerror = () => {
+      reject(new Error('Error!'));
+      img.src = `${urlPic}image/error.jpg`;
+    }
+    img.src = src;
+  })
+}
 
 const addCloseModal = () => {
   const overlay = document.querySelector(".overlay");
