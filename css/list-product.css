@@ -320,8 +320,8 @@
   background-image: url("../img/right-hover.svg");
 }
 
-.list-product__button-img:hover,
-.list-product__button-img:focus {
+.list-product__button-img:hover(:not-disabled),
+.list-product__button-img:focus(:not-disabled) {
   background-image: url("../img/yes-img-hover.svg");
 }
 

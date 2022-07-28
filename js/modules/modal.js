@@ -200,8 +200,11 @@ export const showModal = async (err, data) => {
 
   document.body.style.overflow = 'hidden';
 
-  const img = document.querySelector('.add-product__file-img');
-  loadImg(img, obj.image);
+  if (obj.image !== '') {
+      const img = document.querySelector('.add-product__file-img');
+      loadImg(img, obj.image);
+  }
+
   checked(obj.discount);
 
   addCloseModal();
@@ -418,7 +421,7 @@ const handlingErrors = () => {
 const deleteImg = (overlay) => {
   overlay.addEventListener('click', (e) => {
     if (e.target.classList.contains('add-product__file-block')) {
-      document.querySelector('.add-product__file-img').src = '';
+      document.querySelector('.add-product__file-img').remove();
     }
   })
 };

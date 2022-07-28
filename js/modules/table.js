@@ -44,7 +44,6 @@ export const addTableBtnEvent = () => {
       `;
 
       const img = win.document.querySelector(".add-product__file-img");
-
       loadImg(img, src);  
       win.focus();
     }
