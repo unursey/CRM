@@ -3,7 +3,7 @@ import { isNumber, getTotal } from "./calc.js";
 import { addProductPage } from "./table.js";
 import { fetchRequest, URL, urlPic, getRenderTotalSum } from "./service.js";
 import { renderGoods } from "./createTable.js";
-import { addFileImg, toBase64 } from './addFileImg.js';
+import { addFileImg, toBase64, loadImg } from './addFileImg.js';
 
 export const showModal = async (err, data) => {
   await loadStyle("css/add-product.css");
@@ -195,13 +195,14 @@ export const showModal = async (err, data) => {
         `
   );
 
+
   document.body.append(overlay);
 
   document.body.style.overflow = 'hidden';
 
+  const img = document.querySelector('.add-product__file-img');
+  loadImg(img, obj.image);
   checked(obj.discount);
-
-  loadImg(obj.image);
 
   addCloseModal();
   changeCheckbox();
@@ -210,20 +211,6 @@ export const showModal = async (err, data) => {
   addFileImg();
   deleteImg(overlay);
 };
-
-const loadImg = (src) => {
-  return new Promise((resolve, reject) => {
-    const img = document.querySelector('.add-product__file-img');
-    img.onload = () => {
-      resolve(img);
-    };
-    img.onerror = () => {
-      reject(new Error('Error!'));
-      img.src = `${urlPic}image/error.jpg`;
-    }
-    img.src = src;
-  })
-}
 
 const addCloseModal = () => {
   const overlay = document.querySelector(".overlay");
