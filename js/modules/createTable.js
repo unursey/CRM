@@ -1,6 +1,6 @@
 import { getTotal } from "./calc.js";
 import { getElements } from "./getElements.js";
-import { newTotalSum } from "./control.js";
+import { newTotalSum } from "./table.js";
 
 const { tBody } = getElements();
 
@@ -12,7 +12,6 @@ export const renderGoods = (err, data, item) => {
   }
 
   if (item) {
-    console.log(item);
     item.replaceWith(createRow(data)); 
     return;
   }
@@ -32,11 +31,12 @@ export const createRow = ({
   count,
   price,
   discount,
+  image,
 }) => {
 
   const tr = document.createElement("tr");
   tr.classList.add("list-product__table-tr");
-  tr.dataset.pic = "./img/ksks.jpg";
+  tr.dataset.pic = image;
   tr.dataset.id = id;
   tr.insertAdjacentHTML(
     "afterbegin",

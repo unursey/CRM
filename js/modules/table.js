@@ -1,7 +1,7 @@
 import { getElements } from './getElements.js';
 import { getTotalTable } from './calc.js';
-import { createRow } from './createElements.js';
-import { fetchRequest, URL, getRenderTotalSum } from './service.js';
+import { createRow } from './createTable.js';
+import { fetchRequest, URL, urlPic, getRenderTotalSum } from './service.js';
 import { showModal } from './modal.js';
 
 const {
@@ -29,7 +29,7 @@ export const addTableBtnEvent = () => {
   //Открыть изображение
   if (e.target.closest(".list-product__button-img")) {
     const tr = e.target.closest("tr");
-    const src = `${tr.dataset.pic}`;
+    const src = `${urlPic}${tr.dataset.pic}`;
 
     const top = screen.height / 2 - 600 / 2;
     const left = screen.width / 2 - 600 / 2;

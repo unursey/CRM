@@ -1,7 +1,9 @@
-import {renderGoods} from './createElements.js';
-import { newTotalSum } from './control.js';
+import {renderGoods} from './createTable.js';
+import { newTotalSum } from './table.js';
 
 export const URL = 'https://limitless-beach-97190.herokuapp.com/api/goods';
+
+export const urlPic = 'https://limitless-beach-97190.herokuapp.com/';
 
 export const fetchRequest = async (url, {
     method = '',

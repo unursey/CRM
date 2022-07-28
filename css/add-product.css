@@ -16,14 +16,11 @@
 .add-product {
   max-width: 792px;
   position: relative;
-  top: 50%;
-  transform: translateY(-50%);
   color: var(--greyviolet-color, #6e6893);
   background-color: var(--lightviolet-color, #f4f2ff);
   text-transform: uppercase;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
-  padding-bottom: 39px;
-  padding-top: 32px;
+  padding: 32px 30px 39px 30px;
   margin: 0 auto;
 }
 
@@ -81,7 +78,7 @@
   background-color: var(--white-color, #ffffff);
   border-radius: 8px;
   margin: 0 auto;
-  padding: 28px;
+  padding: 14px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   margin-bottom: 28px;
 }
@@ -112,7 +109,7 @@
 .add-product__fieldset {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, auto);
+  grid-template-rows: repeat(7, auto);
   column-gap: 24px;
 }
 
@@ -290,6 +287,7 @@
   color: var(--white-color, #ffffff);
   background-color: var(--violet-color, #6d5bd0);
   margin-top: 20px;
+  margin-bottom: 14px;
 }
 
 .add-product__input-image {
@@ -365,6 +363,45 @@
 
 .add-product__button-close:active {
   border: 1px solid var(--greyviolet-color, #6e6893);
+}
+
+.add-product__file-block {
+  position: relative;
+  grid-column: 1 / 3;
+  grid-row: 7 / 8;
+  max-height: 200px;
+  max-width: 200px;
+  justify-self: center;
+  cursor: pointer;
+  text-align: center;
+}
+
+.add-product__file-block:hover::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.add-product__file-block:hover:after{
+  text-align: center;
+  position: absolute;
+  content: '';
+  top: 40%;
+  left: 45%;
+  height: 30px;
+  width: 24px;
+  background-image: url('/img/delete-img.svg');
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+
+.add-product__file-img {
+  object-fit: contain;
+  height: 100%;
 }
 
 @media (max-width: 650px) {

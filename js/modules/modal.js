@@ -1,8 +1,9 @@
 import { loadStyle } from "./loadStyle.js";
 import { isNumber, getTotal } from "./calc.js";
-import { addProductPage } from "./control.js";
-import { fetchRequest, URL, getRenderTotalSum } from "./service.js";
-import { renderGoods } from "./createElements.js";
+import { addProductPage } from "./table.js";
+import { fetchRequest, URL, urlPic, getRenderTotalSum } from "./service.js";
+import { renderGoods } from "./createTable.js";
+import { addFileImg, toBase64 } from './addFileImg.js';
 
 export const showModal = async (err, data) => {
   await loadStyle("css/add-product.css");
@@ -20,6 +21,7 @@ export const showModal = async (err, data) => {
     description: "",
     count: "",
     price: "",
+    image: '',
   };
 
   if (data) {
@@ -32,6 +34,11 @@ export const showModal = async (err, data) => {
     obj.description = data.description;
     obj.count = data.count;
     obj.price = data.price;
+    if (data.image === 'image/notimage.jpg') {
+      obj.image = '';
+    } else {
+      obj.image = `${urlPic}${data.image}`;
+    }  
   }
 
   const overlay = document.createElement("div");
@@ -99,7 +106,7 @@ export const showModal = async (err, data) => {
 
               <input
                 class="add-product__input"
-                id="discount" 
+                id="discount"
                 type="text"
                 name="discount"
                 value="${obj.discount}"
@@ -141,13 +148,15 @@ export const showModal = async (err, data) => {
 
             <label class="add-product__label add-product__label-image">
               Добавить изображение
-              <input class="add-product__input add-product__input-image" type="file" name="file" accept="image/*">
+              <input class="add-product__input add-product__input-image" type="file" name="image" accept="image/*">
             </label>
 
-            <div class="add-product__warning">
-              Изображение не должно 
-              превышать размер 1 Мб
+            <div class="add-product__warning"></div>
+
+            <div class="add-product__file-block">
+              <img class="add-product__file-img" src="${obj.image}">
             </div>
+           
           </fieldset>
         </form>
 
@@ -188,6 +197,7 @@ export const showModal = async (err, data) => {
 
   document.body.append(overlay);
 
+  document.body.style.overflow = 'hidden';
 
   checked(obj.discount);
 
@@ -195,6 +205,8 @@ export const showModal = async (err, data) => {
   changeCheckbox();
   modalProductSum(overlay);
   addNewProduct(obj.id);
+  addFileImg();
+  deleteImg(overlay);
 };
 
 const addCloseModal = () => {
@@ -205,6 +217,7 @@ const addCloseModal = () => {
       e.target.classList.contains("add-product__btnModal-close")
     ) {
       overlay.remove();
+      document.body.style.overflow = '';
     }
   });
 };
@@ -212,11 +225,10 @@ const addCloseModal = () => {
 const checked = (discount) => {
   const checkbox = document.querySelector('.add-product__checkbox');
   const checkInput = document.querySelectorAll('.add-product__input')[4];
-  if (discount !== 0) {
+  if ((discount !== 0) && (discount !== '')) {
     checkbox.setAttribute('checked', '');
     checkInput.disabled = false;
 
-    console.log(checkInput)
     if (discount === 15) {
       checkInput.value = 'METHED';
     } else if (discount === 5) {
@@ -310,7 +322,7 @@ const addNewProduct = (id) => {
   const inputId = document.querySelector(".add-product__input");
   const productId = document.querySelectorAll(".add-product__id")[1];
 
-  productForm.addEventListener("submit", (e) => {
+  productForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const product = {};
     inputId.value = +productId.textContent;
@@ -336,12 +348,11 @@ const addNewProduct = (id) => {
     } else {
       product.discount = false;
     }
+    product.image = await toBase64(product.image);
 
-    console.log(id);
     if (id) {
           document.querySelectorAll(".list-product__table-tr").forEach((item) => {
       if (item.dataset.id === `${id}`) {
-        console.log(item);
 
         fetchRequest(`${URL}/${id}`, {
           method: "PATCH",
@@ -350,13 +361,14 @@ const addNewProduct = (id) => {
           },
           body: product,
           callback(err, data) {
+            console.log('Какая то дата', data);
             if (err || data === null) {
               handlingErrors();
             } else {
               document.querySelector(".overlay").remove();
-              console.log("Измененный товар", product);
-
-              renderGoods(err, product, item);
+              document.body.style.overflow = ''
+              //console.log("Измененный товар", product); 
+              renderGoods(err, data, item);
               getRenderTotalSum();
             }
           },
@@ -375,13 +387,13 @@ const addNewProduct = (id) => {
             handlingErrors();
           } else {
             document.querySelector(".overlay").remove();
-            console.log("Новый товар", data);
+            document.body.style.overflow = ''
+            //console.log("Новый товар", data);
             addProductPage(data);
             getRenderTotalSum();
           }
         }
       });
-
     }
   });
 };
@@ -398,4 +410,12 @@ const handlingErrors = () => {
     addCloseError();
     console.warn(err, data);
   }
+};
+
+const deleteImg = (overlay) => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target.classList.contains('add-product__file-block')) {
+      document.querySelector('.add-product__file-img').src = '';
+    }
+  })
 };
