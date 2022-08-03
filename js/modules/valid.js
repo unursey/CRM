@@ -39,10 +39,6 @@ export const valid = () => {
 
     validUnits(units);
     validDesc(desc);
-
-
-
-
 };
 
 

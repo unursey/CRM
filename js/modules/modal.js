@@ -371,7 +371,7 @@ const addNewProduct = (id) => {
               callback(err, data) {
                 console.log("Какая то дата", data);
                 if (err || data === null) {
-                  handlingErrors(warning);
+                  handlingErrors(err, data);
                 } else {
                   document.querySelector(".overlay").remove();
                   document.body.style.overflow = "";
@@ -392,7 +392,7 @@ const addNewProduct = (id) => {
           body: product,
           callback(err, data) {
             if (err || data === null) {
-              handlingErrors(warning);
+              handlingErrors(err, data);
             } else {
               document.querySelector(".overlay").remove();
               document.body.style.overflow = "";
@@ -409,7 +409,8 @@ const addNewProduct = (id) => {
   });
 };
 
-const handlingErrors = (warning) => {
+const handlingErrors = (err, data) => {
+  const warning = document.querySelector(".add-product__warning");
   console.log(err);
   const errNum = err.toString().replace(/[^0-9]/g, "");
   console.log(errNum);
