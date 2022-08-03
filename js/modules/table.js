@@ -40,11 +40,10 @@ export const addTableBtnEvent = () => {
       );
 
       win.document.body.innerHTML = `
-        <img class='add-product__file-img' style="object-fit:cover; margin: 20px auto; max-width:100%;"
+        <img class='add-product__file-img' style="display:block;margin:0 auto; max-width:100%;"
           src='${src}' alt='some text'
           alt=""
         >
-
       `;
 
       const img = win.document.querySelector(".add-product__file-img");

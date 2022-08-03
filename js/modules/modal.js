@@ -3,7 +3,8 @@ import { isNumber, getTotal } from "./calc.js";
 import { addProductPage } from "./table.js";
 import { fetchRequest, URL, urlPic, getRenderTotalSum } from "./service.js";
 import { renderGoods } from "./createTable.js";
-import { addFileImg, toBase64, loadImg } from './addFileImg.js';
+import { addFileImg, toBase64, loadImg } from "./addFileImg.js";
+import { valid, validate } from "./valid.js";
 
 export const showModal = async (err, data) => {
   await loadStyle("css/add-product.css");
@@ -13,7 +14,7 @@ export const showModal = async (err, data) => {
   }
   const obj = {
     titleHead: "Добавить товар",
-    id: '',  //Date.now().toString().slice(4),
+    id: "", //Date.now().toString().slice(4),
     title: "",
     category: "",
     units: "",
@@ -21,7 +22,7 @@ export const showModal = async (err, data) => {
     description: "",
     count: "",
     price: "",
-    image: '',
+    image: "",
   };
 
   if (data) {
@@ -34,11 +35,11 @@ export const showModal = async (err, data) => {
     obj.description = data.description;
     obj.count = data.count;
     obj.price = data.price;
-    if (data.image === 'image/notimage.jpg') {
-      obj.image = '';
+    if (data.image === "image/notimage.jpg") {
+      obj.image = "";
     } else {
       obj.image = `${urlPic}${data.image}`;
-    }  
+    }
   }
 
   const overlay = document.createElement("div");
@@ -65,7 +66,7 @@ export const showModal = async (err, data) => {
             <label class="add-product__label add-product__label-name">
               Наименование
               <input
-                class="add-product__input"
+                class="add-product__input add-product__input-name"
                 type="text"
                 name="title"
                 value="${obj.title}"
@@ -76,7 +77,7 @@ export const showModal = async (err, data) => {
             <label class="add-product__label add-product__label-category">
               Категория
               <input
-                class="add-product__input"
+                class="add-product__input add-product__input-name"
                 type="text"
                 name="category"
                 value="${obj.category}"
@@ -87,7 +88,7 @@ export const showModal = async (err, data) => {
             <label class="add-product__label add-product__label-units">
               Единицы измерения
               <input
-                class="add-product__input"
+                class="add-product__input add-product__input-units"
                 type="text"
                 name="units"
                 value="${obj.units}"
@@ -118,7 +119,7 @@ export const showModal = async (err, data) => {
             <label class="add-product__label add-product__label-description">
               Описание
               <textarea
-                class="add-product__input add-product__input_large"
+                class="add-product__input add-product__input-name add-product__input_large"
                 name="description"
                 required
               >${obj.description}</textarea>
@@ -127,7 +128,7 @@ export const showModal = async (err, data) => {
             <label class="add-product__label add-product__label-count">
               Количество
               <input
-                class="add-product__input"
+                class="add-product__input add-product__input-num"
                 type="number"
                 name="count"
                 value="${obj.count}"
@@ -138,7 +139,7 @@ export const showModal = async (err, data) => {
             <label class="add-product__label add-product__label-price">
               Цена
               <input
-                class="add-product__input"
+                class="add-product__input add-product__input-num"
                 type="number"
                 name="price"
                 value="${obj.price}"
@@ -195,18 +196,18 @@ export const showModal = async (err, data) => {
         `
   );
 
-
   document.body.append(overlay);
 
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = "hidden";
 
-  if (obj.image !== '') {
-      const img = document.querySelector('.add-product__file-img');
-      loadImg(img, obj.image);
+  if (obj.image !== "") {
+    const img = document.querySelector(".add-product__file-img");
+    loadImg(img, obj.image);
   }
 
   checked(obj.discount);
 
+  valid();
   addCloseModal();
   changeCheckbox();
   modalProductSum(overlay);
@@ -223,31 +224,31 @@ const addCloseModal = () => {
       e.target.classList.contains("add-product__btnModal-close")
     ) {
       overlay.remove();
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
   });
 };
 
 const checked = (discount) => {
-  const checkbox = document.querySelector('.add-product__checkbox');
-  const checkInput = document.querySelectorAll('.add-product__input')[4];
-  if ((discount !== 0) && (discount !== '')) {
-    checkbox.setAttribute('checked', '');
+  const checkbox = document.querySelector(".add-product__checkbox");
+  const checkInput = document.querySelectorAll(".add-product__input")[4];
+  if (discount !== 0 && discount !== "") {
+    checkbox.setAttribute("checked", "");
     checkInput.disabled = false;
 
     if (discount === 15) {
-      checkInput.value = 'METHED';
+      checkInput.value = "METHED";
     } else if (discount === 5) {
-      checkInput.value = 'NEWYEAR';
+      checkInput.value = "NEWYEAR";
     } else if (discount === 10) {
-      checkInput.value = 'SALE';
+      checkInput.value = "SALE";
     } else if (discount === 20) {
-      checkInput.value = 'JARA2022';
+      checkInput.value = "JARA2022";
     } else if (discount === 40) {
-      checkInput.value = '1XBET';
-    }  
+      checkInput.value = "1XBET";
+    }
   } else {
-    checkInput.value = '';
+    checkInput.value = "";
   }
 };
 
@@ -296,7 +297,7 @@ const checkPromo = (promo, checkInput) => {
   } else if (promo === "JARA2022") {
     return 20;
   } else if (promo === "1XBET") {
-    return 40;      
+    return 40;
   } else {
     checkInput.value = "";
     return "";
@@ -325,6 +326,7 @@ const addCloseError = () => {
 
 const addNewProduct = (id) => {
   const productForm = document.querySelector(".add-product__form");
+  const warning = document.querySelector(".add-product__warning");
   const inputId = document.querySelector(".add-product__input");
   const productId = document.querySelectorAll(".add-product__id")[1];
 
@@ -356,55 +358,58 @@ const addNewProduct = (id) => {
     }
     product.image = await toBase64(product.image);
 
-    if (id) {
-          document.querySelectorAll(".list-product__table-tr").forEach((item) => {
-      if (item.dataset.id === `${id}`) {
-
-        fetchRequest(`${URL}/${id}`, {
-          method: "PATCH",
+    if (validate(product)) {
+      if (id) {
+        document.querySelectorAll(".list-product__table-tr").forEach((item) => {
+          if (item.dataset.id === `${id}`) {
+            fetchRequest(`${URL}/${id}`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: product,
+              callback(err, data) {
+                console.log("Какая то дата", data);
+                if (err || data === null) {
+                  handlingErrors(warning);
+                } else {
+                  document.querySelector(".overlay").remove();
+                  document.body.style.overflow = "";
+                  //console.log("Измененный товар", product);
+                  renderGoods(err, data, item);
+                  getRenderTotalSum();
+                }
+              },
+            });
+          }
+        });
+      } else {
+        fetchRequest(URL, {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: product,
           callback(err, data) {
-            console.log('Какая то дата', data);
             if (err || data === null) {
-              handlingErrors();
+              handlingErrors(warning);
             } else {
               document.querySelector(".overlay").remove();
-              document.body.style.overflow = ''
-              //console.log("Измененный товар", product); 
-              renderGoods(err, data, item);
+              document.body.style.overflow = "";
+              //console.log("Новый товар", data);
+              addProductPage(data);
               getRenderTotalSum();
             }
           },
         });
       }
-    });
     } else {
-      fetchRequest(URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: product,
-        callback(err, data) {
-          if (err || data === null) {
-            handlingErrors();
-          } else {
-            document.querySelector(".overlay").remove();
-            document.body.style.overflow = ''
-            //console.log("Новый товар", data);
-            addProductPage(data);
-            getRenderTotalSum();
-          }
-        }
-      });
+      warning.innerHTML = "Данные не валидны!";
     }
   });
 };
 
-const handlingErrors = () => {
+const handlingErrors = (warning) => {
   console.log(err);
   const errNum = err.toString().replace(/[^0-9]/g, "");
   console.log(errNum);
@@ -419,9 +424,9 @@ const handlingErrors = () => {
 };
 
 const deleteImg = (overlay) => {
-  overlay.addEventListener('click', (e) => {
-    if (e.target.classList.contains('add-product__file-block')) {
-      document.querySelector('.add-product__file-img').remove();
+  overlay.addEventListener("click", (e) => {
+    if (e.target.classList.contains("add-product__file-block")) {
+      document.querySelector(".add-product__file-img").remove();
     }
-  })
+  });
 };
