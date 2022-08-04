@@ -200,20 +200,20 @@ export const showModal = async (err, data) => {
 
   document.body.style.overflow = "hidden";
 
+  const img = document.querySelector(".add-product__file-img");
+
   if (obj.image !== "") {
-    const img = document.querySelector(".add-product__file-img");
     loadImg(img, obj.image);
   }
 
   checked(obj.discount);
-
   valid();
   addCloseModal();
   changeCheckbox();
   modalProductSum(overlay);
-  addNewProduct(obj.id);
-  addFileImg();
-  deleteImg(overlay);
+  addNewProduct(obj.id, img);
+  addFileImg(img);
+  deleteImg(overlay, img);
 };
 
 const addCloseModal = () => {
@@ -324,7 +324,7 @@ const addCloseError = () => {
 //   });
 // };
 
-const addNewProduct = (id) => {
+const addNewProduct = (id, img) => {
   const productForm = document.querySelector(".add-product__form");
   const warning = document.querySelector(".add-product__warning");
   const inputId = document.querySelector(".add-product__input");
@@ -356,8 +356,13 @@ const addNewProduct = (id) => {
     } else {
       product.discount = false;
     }
-    product.image = await toBase64(product.image);
 
+    if (product.image.size === 0 && img.src) {
+      delete product.image;
+    } else {
+      product.image = await toBase64(product.image); 
+    }
+    
     if (validate(product)) {
       if (id) {
         document.querySelectorAll(".list-product__table-tr").forEach((item) => {
@@ -424,10 +429,10 @@ const handlingErrors = (err, data) => {
   }
 };
 
-const deleteImg = (overlay) => {
+const deleteImg = (overlay, img) => {
   overlay.addEventListener("click", (e) => {
     if (e.target.classList.contains("add-product__file-block")) {
-      document.querySelector(".add-product__file-img").remove();
+      img.removeAttribute("src");
     }
   });
 };

@@ -53,7 +53,7 @@ export const validate = (product) => {
       success = false;
   }
   if (
-    product["description"].length < 80
+    product["description"].length < 8
   ) {
     success = false;
   }
