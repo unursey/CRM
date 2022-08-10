@@ -1,7 +1,7 @@
 import { loadStyle } from "./loadStyle.js";
 import { isNumber, getTotal } from "./calc.js";
 import { addProductPage } from "./table.js";
-import { fetchRequest, URL, urlPic, getRenderTotalSum } from "./service.js";
+import { fetchRequest, URL, urlPic, getRenderTotalSum, getRenderCategory } from "./service.js";
 import { renderGoods } from "./createTable.js";
 import { addFileImg, toBase64, loadImg } from "./addFileImg.js";
 import { valid, validate } from "./valid.js";
@@ -40,6 +40,30 @@ export const showModal = async (err, data) => {
     } else {
       obj.image = `${urlPic}${data.image}`;
     }
+    
+  //   const toDataURL = (url) =>
+  //     fetch(`${urlPic}${data.image}`, {
+  //       mode: "no-cors",
+  //     })
+  //       .then((response) => {
+  //         response.blob()
+  //         console.log(response)
+  //       })
+  //       .then(
+  //         (blob) =>{
+  //           new Promise((resolve, reject) => {
+  //             const reader = new FileReader();
+  //             reader.onloadend = () => resolve(reader.result);
+  //             reader.onerror = reject;
+  //             reader.readAsDataURL(blob);
+  //           })
+  //           console.log(blob)
+  //       });
+
+  //   toDataURL(`${urlPic}${data.image}`, function (dataUrl) {
+  //     console.log("RESULT:", dataUrl);
+  //     debugger;
+  //   });
   }
 
   const overlay = document.createElement("div");
@@ -80,10 +104,16 @@ export const showModal = async (err, data) => {
                 class="add-product__input add-product__input-name"
                 type="text"
                 name="category"
+                list="category-list"
                 value="${obj.category}"
+                autocomplete="off"
                 required
               />
             </label>
+
+            <datalist id="category-list">
+            
+            </datalist>
 
             <label class="add-product__label add-product__label-units">
               Единицы измерения
@@ -197,6 +227,7 @@ export const showModal = async (err, data) => {
   );
 
   document.body.append(overlay);
+  getRenderCategory();
 
   document.body.style.overflow = "hidden";
 
@@ -360,9 +391,9 @@ const addNewProduct = (id, img) => {
     if (product.image.size === 0 && img.src) {
       delete product.image;
     } else {
-      product.image = await toBase64(product.image); 
+    product.image = await toBase64(product.image);
     }
-    
+
     if (validate(product)) {
       if (id) {
         document.querySelectorAll(".list-product__table-tr").forEach((item) => {

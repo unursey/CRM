@@ -6,6 +6,6 @@ import {
 } from './table.js';
 
   export const init = () => {
-    getRenderGoods()
+    getRenderGoods();
     addTableBtnEvent();
   }

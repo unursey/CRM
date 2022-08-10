@@ -47,4 +47,3 @@ export const loadImg = (img, src) => {
     img.src = src;
   });
 };
-

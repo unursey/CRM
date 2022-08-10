@@ -1,9 +1,11 @@
-import {renderGoods} from './createTable.js';
+import { renderGoods } from './createTable.js';
 import { newTotalSum } from './table.js';
+import { addOptions } from './createDatalist.js';
 
 export const URL = 'https://limitless-beach-97190.herokuapp.com/api/goods';
-
 export const urlPic = 'https://limitless-beach-97190.herokuapp.com/';
+
+const urlCategory = 'https://limitless-beach-97190.herokuapp.com/api/category'
 
 export const fetchRequest = async (url, {
     method = '',
@@ -39,13 +41,23 @@ export const getRenderGoods = () => {
           },
         callback: renderGoods,
       });      
-}
+};
 
 export const getRenderTotalSum = () => {
     fetchRequest(URL, {
         method: 'get',
         callback: newTotalSum,
       });     
+};
+
+export const getRenderCategory = () => {
+  fetchRequest(urlCategory, {
+      method: 'get',
+      headers: {
+          "Content-Type": "application/json",
+        },
+      callback: addOptions,
+    });      
 }
 
 

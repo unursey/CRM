@@ -79,7 +79,7 @@ export const newTotalSum = (err, data) => {
     console.warn(err, data);
   }
   allProductSum.textContent = `$ ${getTotalTable(data).toFixed(2)}`;
-  console.log("общая новая дата", data);
+  //console.log("общая новая дата", data);
 };
 
 // win.document.write(`<img src='${document.querySelectorAll('.list-product__table-tr')[index].dataset.pic}'
