@@ -71,7 +71,7 @@ export const addTableBtnEvent = () => {
       const width = 530;
 
       const win = open(
-        "about:blance",
+        "about:blank",
         "",
         `width=${height}, height=${width}, menubar=no, toolbar=no, scrollbars=no, top=${
           (screen.height - height) / 2

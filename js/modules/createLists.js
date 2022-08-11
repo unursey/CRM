@@ -1,4 +1,8 @@
-import { getRenderCategoryGoods, getRenderGoods, getRenderDiscountGoods } from "./service.js";
+import {
+  getRenderCategoryGoods,
+  getRenderGoods,
+  getRenderDiscountGoods,
+} from "./service.js";
 
 export const addOptions = (err, data) => {
   if (err) {
@@ -20,46 +24,46 @@ export const addBtnFilter = (err, data) => {
   }
   const filterBlock = document.querySelector(".list-product__filter-block");
   const btnDiscount = createBtnDiscount();
-  btnDiscount.textContent = 'Дисконт';
+  btnDiscount.textContent = "Дисконт";
 
   const btnAll = createBtnDiscount();
-  btnAll.textContent = 'Показать все';
+  btnAll.textContent = "Показать все";
 
   const allBtn = data.map(createBtns);
 
-  filterBlock.innerHTML = '';
+  filterBlock.innerHTML = "";
   filterBlock.append(btnAll);
   filterBlock.append(btnDiscount);
   filterBlock.append(...allBtn);
 
   allBtn.forEach((i) => {
-    i.addEventListener('click', () => {
+    i.addEventListener("click", () => {
       const text = i.textContent;
-      
+
       getRenderCategoryGoods(text);
     });
   });
 
-  btnDiscount.addEventListener('click', () => {
-    const text = 'discount';
-    
+  btnDiscount.addEventListener("click", () => {
+    const text = "discount";
+
     getRenderDiscountGoods(text);
   });
 
-  btnAll.addEventListener('click', () => {
+  btnAll.addEventListener("click", () => {
     getRenderGoods();
   });
 };
 
 const createBtns = (i) => {
   const btn = document.createElement("button");
-  btn.className = 'list-product__filter-btns'
+  btn.className = "list-product__filter-btns";
   btn.textContent = i;
   return btn;
 };
 
 const createBtnDiscount = () => {
   const btn = document.createElement("button");
-  btn.className = 'list-product__filter-btns'
+  btn.className = "list-product__filter-btns";
   return btn;
 };
