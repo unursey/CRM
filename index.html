@@ -39,6 +39,7 @@
               <button class="list-product__table-filter">
                 Фильтр
               </button>
+              <div class="list-product__filter-block hide"></div>
   
               <label class="list-product__table-search">
                 <input class="list-product__table-input" type="search" placeholder="Поиск по наименованию и категории">
@@ -213,16 +214,16 @@
                 <div>
                   <span>Показывать на странице:</span>
                   <select class="list-product__table-select">
-                    <option>10</option>
-                    <option>50</option>
-                    <option>100</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
                   </select>
                 </div>
   
                 <div class="list-product__table-content">
-                  <div>1-10 of</div>
+                  <div class="list-product__elem"></div>
 
-                  <div>276</div>
+                  <div class="list-product__total-elem"></div>
                 </div>
   
                 <button class="list-product__table-arrow list-product__table-left" aria-label="left"></button>

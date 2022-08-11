@@ -1,8 +1,8 @@
 import { loadStyle } from "./loadStyle.js";
 import { isNumber, getTotal } from "./calc.js";
-import { addProductPage } from "./table.js";
-import { fetchRequest, URL, urlPic, getRenderTotalSum, getRenderCategory } from "./service.js";
-import { renderGoods } from "./createTable.js";
+//import { addProductPage } from "./table.js";
+import { fetchRequest, URL, urlPic, getRenderTotalSum, getRenderCategory, getRenderGoods } from "./service.js";
+//import { renderGoods } from "./createTable.js";
 import { addFileImg, toBase64, loadImg } from "./addFileImg.js";
 import { valid, validate } from "./valid.js";
 
@@ -412,7 +412,8 @@ const addNewProduct = (id, img) => {
                   document.querySelector(".overlay").remove();
                   document.body.style.overflow = "";
                   //console.log("Измененный товар", product);
-                  renderGoods(err, data, item);
+                  //renderGoods(err, data, item);
+                  getRenderGoods();
                   getRenderTotalSum();
                 }
               },
@@ -433,7 +434,8 @@ const addNewProduct = (id, img) => {
               document.querySelector(".overlay").remove();
               document.body.style.overflow = "";
               //console.log("Новый товар", data);
-              addProductPage(data);
+              //addProductPage(data);
+              getRenderGoods();
               getRenderTotalSum();
             }
           },

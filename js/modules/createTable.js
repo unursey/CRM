@@ -1,26 +1,23 @@
 import { getTotal } from "./calc.js";
 import { getElements } from "./getElements.js";
 import { newTotalSum } from "./table.js";
+import {getRenderBtnCategory} from "./service.js";
 
 const { tBody } = getElements();
 
 
-export const renderGoods = (err, data, item) => {
-  if (err) {
-    console.warn(err, data);
-    return;
-  }
-
+export const renderGoods = (data, item) => {
   if (item) {
     item.replaceWith(createRow(data)); 
     return;
   }
-  
+  tBody.innerHTML ='';
   const allRow = data.map(createRow);
   
   tBody.append(...allRow);
+  getRenderBtnCategory();
 
-  newTotalSum(err, data);
+  newTotalSum(null, data);
 };
 
 export const createRow = ({

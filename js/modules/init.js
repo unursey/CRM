@@ -8,4 +8,4 @@ import {
   export const init = () => {
     getRenderGoods();
     addTableBtnEvent();
-  }
+  };

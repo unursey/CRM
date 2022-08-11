@@ -1,18 +1,55 @@
 import { getElements } from "./getElements.js";
 import { getTotalTable } from "./calc.js";
 import { createRow } from "./createTable.js";
-import { fetchRequest, URL, urlPic, getRenderTotalSum } from "./service.js";
+import {
+  fetchRequest,
+  URL,
+  urlPic,
+  getRenderTotalSum,
+  getRenderSearchGoods,
+  getRenderGoods,
+} from "./service.js";
 import { showModal } from "./modal.js";
 import { loadImg } from "./addFileImg.js";
 
 const { productTable, tBody, allProductSum } = getElements();
 
+
 export const addTableBtnEvent = () => {
-  productTable.addEventListener("click", (e) => {
-    //Новое модальное окно
+  const input = document.querySelector(".list-product__table-input");
+  const btnFilter = document.querySelector(".list-product__table-filter");
+  const filterBlock = document.querySelector(".list-product__filter-block");
+
+  let t;
+
+// ПОИСК
+  input.addEventListener("input", () => {
+    clearTimeout(t);
+    t = setTimeout(() => {
+      const text = input.value;
+      getRenderSearchGoods(text);
+    }, 300);
+  });
+
+  // Фильтр
+  btnFilter.addEventListener('click', () => {
+    filterBlock.classList.toggle('hide');
+  });
+
+  document.querySelector('.list-product').addEventListener('click', (e) => {
+    if (!e.target.classList.contains('list-product__filter-block') &&
+    (!e.target.classList.contains('list-product__table-filter'))) {
+
+      filterBlock.classList.add('hide');
+    }
+  })
+
+
+//Новое модальное окно
+  productTable.addEventListener("click", (e) => {  
     if (e.target.classList.contains("list-product__table-add")) {
       showModal();
-    }
+    };
 
     //Редактирование
     if (e.target.classList.contains("list-product__button-edit")) {
@@ -20,7 +57,7 @@ export const addTableBtnEvent = () => {
         method: "get",
         callback: showModal,
       });
-    }
+    };
 
     //Открыть изображение
     if (e.target.closest(".list-product__button-img")) {
@@ -36,7 +73,9 @@ export const addTableBtnEvent = () => {
       const win = open(
         "about:blance",
         "",
-        `width=${height}, height=${width}, menubar=no, toolbar=no, scrollbars=no, top=${((screen.height-height)/2)},left=${((screen.width-width)/2)}`
+        `width=${height}, height=${width}, menubar=no, toolbar=no, scrollbars=no, top=${
+          (screen.height - height) / 2
+        },left=${(screen.width - width) / 2}`
       );
 
       win.document.body.innerHTML = `
@@ -48,8 +87,8 @@ export const addTableBtnEvent = () => {
 
       const img = win.document.querySelector(".add-product__file-img");
 
-      loadImg(img, src); 
-      
+      loadImg(img, src);
+
       win.focus();
     }
 
@@ -62,6 +101,7 @@ export const addTableBtnEvent = () => {
             console.warn(err, data);
           } else {
             e.target.closest(".list-product__table-tr").remove();
+            getRenderGoods();
             getRenderTotalSum();
           }
         },
@@ -79,15 +119,5 @@ export const newTotalSum = (err, data) => {
     console.warn(err, data);
   }
   allProductSum.textContent = `$ ${getTotalTable(data).toFixed(2)}`;
-  //console.log("общая новая дата", data);
 };
 
-// win.document.write(`<img src='${document.querySelectorAll('.list-product__table-tr')[index].dataset.pic}'
-// alt='Киса лижет лапку' />`);
-
-// win.document.body.innerHTML = `
-// <img
-// src='${location.origin}/img/ksks.jpg') alt='some text'
-// alt="Киса лижет лапку"
-// >
-// `;

@@ -9,7 +9,7 @@ export const addFileImg = (img) => {
         "Изображение не должно превышать размер 1 Мб";
     } else if (file.files.length > 0) {
       const src = URL.createObjectURL(file.files[0]);
-      console.log('src', src)
+
       img.src = src;
       document.querySelector(".add-product__warning").textContent = "";
     }

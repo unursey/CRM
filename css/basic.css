@@ -57,3 +57,7 @@ section {
   padding: 79px 0;
 }
 
+.hide {
+  display: none;
+}
+
