@@ -88,8 +88,8 @@ export const getRenderCategoryGoods = (text) => {
   });
 };
 
-export const getRenderDiscountGoods = () => {
-  fetchRequest(`${URL}/discount`, {
+export const getRenderDiscountGoods = (text) => {
+  fetchRequest(`${URL}/${text}`, {
     method: "get",
     headers: {
       "Content-Type": "application/json",

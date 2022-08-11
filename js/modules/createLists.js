@@ -1,5 +1,4 @@
-import { getRenderCategoryGoods } from "./service.js";
-import { getRenderDiscountGoods } from "./service.js";
+import { getRenderCategoryGoods, getRenderGoods, getRenderDiscountGoods } from "./service.js";
 
 export const addOptions = (err, data) => {
   if (err) {
@@ -21,10 +20,15 @@ export const addBtnFilter = (err, data) => {
   }
   const filterBlock = document.querySelector(".list-product__filter-block");
   const btnDiscount = createBtnDiscount();
+  btnDiscount.textContent = 'Дисконт';
+
+  const btnAll = createBtnDiscount();
+  btnAll.textContent = 'Показать все';
 
   const allBtn = data.map(createBtns);
 
   filterBlock.innerHTML = '';
+  filterBlock.append(btnAll);
   filterBlock.append(btnDiscount);
   filterBlock.append(...allBtn);
 
@@ -39,7 +43,11 @@ export const addBtnFilter = (err, data) => {
   btnDiscount.addEventListener('click', () => {
     const text = 'discount';
     
-    getRenderDiscountGoods();
+    getRenderDiscountGoods(text);
+  });
+
+  btnAll.addEventListener('click', () => {
+    getRenderGoods();
   });
 };
 
@@ -53,6 +61,5 @@ const createBtns = (i) => {
 const createBtnDiscount = () => {
   const btn = document.createElement("button");
   btn.className = 'list-product__filter-btns'
-  btn.textContent = 'Дисконт';
   return btn;
 };
