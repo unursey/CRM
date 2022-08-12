@@ -1,4 +1,5 @@
 import { renderGoods } from "./createTable.js";
+import { newTotalSum } from "./table.js";
 
 export const paginate = (err, data) => {
   console.log("data получена: ", data);
@@ -30,11 +31,11 @@ const createPage = (data) => {
   } else {
     document.querySelector(
       ".list-product__elem"
-    ).innerHTML = `1-${selectedItemsPerPage} of`;
+    ).innerHTML = `1-${pages[currentPageIndex].length} of`;
   }
 
   changeCountItem(data, selectedItemsPerPage, currentPageIndex);
-  arrowBtn(currentPageIndex, pages);
+  arrowBtn(currentPageIndex, pages, selectedItemsPerPage);
 };
 
 const createPagination = (itemsTotal, itemsPerPage) => {
@@ -49,8 +50,8 @@ const createPagination = (itemsTotal, itemsPerPage) => {
   });
 };
 
-const arrowBtn = (currentPageIndex, pages) => {
-    
+const arrowBtn = (currentPageIndex, pages, selectedItemsPerPage) => {
+ 
   document
     .querySelector(".list-product__table-right")
     .addEventListener("click", () => {
@@ -58,7 +59,11 @@ const arrowBtn = (currentPageIndex, pages) => {
       if (currentPageIndex >= pages.length) {
         currentPageIndex = pages.length - 1;
       } 
-      renderGoods(pages[currentPageIndex])
+      renderGoods(pages[currentPageIndex]);
+
+      document.querySelector(
+        ".list-product__elem"
+      ).innerHTML = `${currentPageIndex*selectedItemsPerPage+1}-${currentPageIndex*selectedItemsPerPage + pages[currentPageIndex].length} of`;
     });
 
   document
@@ -69,7 +74,11 @@ const arrowBtn = (currentPageIndex, pages) => {
       if (currentPageIndex < 0) {
         currentPageIndex = 0;
       } 
-      renderGoods(pages[currentPageIndex])
+      renderGoods(pages[currentPageIndex]);
+
+      document.querySelector(
+        ".list-product__elem"
+      ).innerHTML = `${currentPageIndex*selectedItemsPerPage+1}-${currentPageIndex*selectedItemsPerPage + pages[currentPageIndex].length} of`;
     });
 };
 
