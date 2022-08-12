@@ -1,6 +1,6 @@
 import { getTotal } from "./calc.js";
 import { getElements } from "./getElements.js";
-import {getRenderBtnCategory, getRenderTotalSum} from "./service.js";
+import {getRenderBtnCategory} from "./service.js";
 
 const { tBody } = getElements();
 
@@ -15,8 +15,6 @@ export const renderGoods = (data, item) => {
   
   tBody.append(...allRow);
   getRenderBtnCategory();
-  getRenderTotalSum();
-
 };
 
 export const createRow = ({

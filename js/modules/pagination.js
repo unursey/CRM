@@ -7,7 +7,7 @@ export const paginate = (err, data) => {
     console.warn(err, data);
     return;
   }
-
+  newTotalSum(err, data)
   createPage(data);
 };
 
