@@ -374,3 +374,27 @@
 .list-product__button-delete:active {
   border: 1px solid var(--greyviolet-color, #6e6893);
 }
+
+@media (max-width: 870px) {
+  .list-product__table-nav {
+    height: 120px;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .list-product__table-nav {
+    height: 120px;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+  }
+
+  .list-product__header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -64,6 +64,7 @@ export const showModal = async (err, data) => {
   //     console.log("RESULT:", dataUrl);
   //     debugger;
   //   });
+  
   }
 
   const overlay = document.createElement("div");

@@ -61,3 +61,14 @@ section {
   display: none;
 }
 
+@media (max-width: 980px) {
+  .container {
+  padding: 0 50px;
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+  padding: 0 20px;
+  }
+}
